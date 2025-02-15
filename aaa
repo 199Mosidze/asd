@@ -1,0 +1,133 @@
+//deg
+#include <Servo.h>​
+Servo servo;​
+void setup(){​
+    servo.attach(9,500,2500);​
+}​
+void loop(){  ​
+  servo.write(90);​
+} ​
+
+//potc
+
+#include <Servo.h>
+#define POT_PIN A0
+#define SERVO_PIN 9
+Servo my_servo;
+int pot_val=0;
+int kutxe=0;
+void setup(){
+  Serial.begin(9600);
+  my_servo.attach(SERVO_PIN);
+  pinMode(POT_PIN, INPUT);
+
+}
+void loop() {
+  pot_val=analogRead(POT_PIN);
+  kutxe=map(pot_val,0,1023,0,180);
+  Serial.print(pot_val);
+  Serial.print(" ");
+  Serial.println(kutxe);
+  my_servo.write(kutxe);
+  delay(10);
+}
+
+//co
+
+int gazi = 0;​
+#include <Servo.h>​
+Servo servo;​
+void setup()​
+{​
+  Serial.begin(9600);​
+  servo.attach(9,500,2500);​
+  pinMode(13, OUTPUT);​
+  pinMode(10, OUTPUT);​
+   pinMode(7, OUTPUT);​
+}​
+void loop()​
+{​
+  gazi = analogRead(A0);​
+  if(gazi<500){​
+    digitalWrite(13,1);​
+    digitalWrite(10,0);​
+    digitalWrite(7,0);​
+  servo.write(0);​
+  }​
+else {​
+    digitalWrite(13,0);​
+    digitalWrite(10,1);​
+    delay(100);​
+    digitalWrite(10,0);​
+   delay(100);​
+    digitalWrite(7,1);​
+  servo.write(90);​
+}     ​
+  Serial.println(gazi); ​
+} ​
+
+//shqdiod
+
+int gazi = 0;​
+void setup()​
+{​
+  Serial.begin(9600);​
+pinMode(13, OUTPUT);​
+ pinMode(10, OUTPUT);​
+}​
+void loop()​
+{​
+  gazi = analogRead(A0);​
+  if(gazi<120){​
+    digitalWrite(13,1);​
+    digitalWrite(10,0);​
+}​
+else {​
+    digitalWrite(13,0);​
+    digitalWrite(10,1);​
+}     ​
+  Serial.println(gazi); }​
+
+//srv
+
+int gazi = 0;​
+#include <Servo.h>​
+Servo servo;​ ​
+void setup()​
+{​
+  Serial.begin(9600);​
+  servo.attach(9,500,2500);​
+}​
+void loop()​
+{​
+  gazi = analogRead(A0);​
+  if(gazi<120){​
+servo.write(0);​
+  }​
+else {​
+servo.write(90);​
+}     ​
+  Serial.println(gazi); }
+
+//buz
+
+int gazi = 0;​
+#include <Servo.h>​
+Servo servo;​​
+void setup()​
+{​
+  Serial.begin(9600);​
+pinMode(7, OUTPUT);​
+}​
+void loop()​
+{​
+  gazi = analogRead(A0);​
+  if(gazi<500){​
+);​
+    digitalWrite(7,0);​
+}​
+else {​
+    digitalWrite(7,1);​
+}     ​
+  Serial.println(gazi); ​
+} 
