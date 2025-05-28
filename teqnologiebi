@@ -1,27 +1,32 @@
-#include<MFRC522.h>
-#include<SPI.h>
-MFRC522 mfrc522(10,9);
+#include <SPI.h>
+#include <RFID.h>
+//SS-10
+//RST-9
+RFID rfid(10,9);
 void setup(){
   pinMode(6,OUTPUT);pinMode(7,OUTPUT);pinMode(8,OUTPUT);
   Serial.begin(9600);
   SPI.begin();
-  mfrc522.PCD_Init();
-  Serial.println("barati readers daadet");
-  Serial.println();
+  rfid.init();//rfid dawyeba
+  Serial.println("machvene barati");
 }
 void loop(){
-  digitalWrite(6,LOW);digitalWrite(7,LOW);digitalWrite(8,LOW);
-  if(!mfrc522.PICC_IsNewCardPresent())return;
-  if(!mfrc522.PICC_ReadCardSerial())return;
-  Serial.print("ID:");
-  String card_id="";
-  for(byte i=0;i<mfrc522.uid.size;i++){
-    card_id.concat(String(mfrc522.uid.uidByte[i],HEX));
+  digitalWrite(6,LOW);digitalWrite(7,LOW);digitalWrite(8,LOW);//yvelafirs gamortva
+  if(!rfid.isCard())return;
+  if(!rfid.readCardSerial())return;
+  Serial.print(rfid.serNum[0],DEC);
+  Serial.print(rfid.serNum[1],DEC);
+  Serial.print(rfid.serNum[2],DEC);
+  Serial.print(rfid.serNum[3],DEC);
+  Serial.print(rfid.serNum[4],DEC);
+  delay(800);
+  if(rfid.serNum[0]==0 and rfid.serNum[1]==0 and rfid.serNum[2]==0 and rfid.serNum[3]==0 and rfid.serNum[4]==0){
+    Authorized_Access();
   }
-  Serial.println(card_id);
-  if(card_id=="code")Authorized_Access();
-  //aq sityva "code"-is magivrad chasasmelia baratis id, romelsac vnaxavt kodis gashvebis shemdeg
-  else Access_Denied();
+  else{
+    Access_Denied();
+  }
+  rfid.halt();//rfid gatishva
 }
 void Authorized_Access(){
   Serial.println("barati migebulia");
@@ -31,9 +36,16 @@ void Authorized_Access(){
     digitalWrite(8,LOW);delay(200);
   }
 }
+
 void Access_Denied(){
   Serial.println("barati miugebelia");
   digitalWrite(7,HIGH);
   digitalWrite(8,HIGH);
   delay(1000);
 }
+/*
+6-mwvane
+7-witeli
+8-buzzer
+9,10-rfid
+*/
